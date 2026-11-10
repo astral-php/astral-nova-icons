@@ -1,0 +1,21 @@
+{
+  "name": "astral-php/astral-nova-icons",
+  "description": "Optional Nova SVG icon sprite and sizing CSS for Astral applications.",
+  "version": "1.0.0",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/astral-php/astral-nova-icons",
+  "support": {
+    "source": "https://github.com/astral-php/astral-nova-icons",
+    "issues": "https://github.com/astral-php/astral-nova-icons/issues"
+  },
+  "keywords": [
+    "astral",
+    "nova",
+    "icons",
+    "svg"
+  ],
+  "require": {
+    "php": "^8.3"
+  }
+}

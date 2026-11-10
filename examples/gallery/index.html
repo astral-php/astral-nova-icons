@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr" data-nova-theme="indigo" data-nova-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nova Icons — Galerie</title>
+  <link rel="stylesheet" href="../../../astral-nova-css/dist/nova.css">
+  <link rel="stylesheet" href="../../dist/nova-icons.css">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--nova-text);
+      background: var(--nova-background);
+      font-family: var(--nova-font-family);
+    }
+    .wrap { max-width: 72rem; margin: 0 auto; padding: 1.5rem clamp(1rem, 3vw, 2rem) 3rem; }
+    .top { display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem; align-items:center; margin-bottom:1.5rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+      gap: .75rem;
+    }
+    .cell {
+      display: grid;
+      gap: .55rem;
+      place-items: center;
+      padding: 1rem .6rem;
+      border: 1px solid var(--nova-border);
+      border-radius: var(--nova-radius-md);
+      background: var(--nova-surface);
+      text-align: center;
+    }
+    .cell code { font-size: .68rem; color: var(--nova-text-muted); word-break: break-all; }
+    .cell .nova-icon { color: var(--nova-primary); }
+    .toolbar { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin-bottom:1rem; }
+    .toolbar label { font-size: .85rem; color: var(--nova-text-muted); }
+    select {
+      min-height: 2.3rem;
+      padding: .35rem .6rem;
+      border: 1px solid var(--nova-border);
+      border-radius: var(--nova-radius-md);
+      background: var(--nova-background);
+      color: var(--nova-text);
+      font: inherit;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <p style="margin:0;color:var(--nova-primary);font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase">astral-nova-icons</p>
+        <h1 style="margin:.35rem 0 0;letter-spacing:-.04em">Galerie d’icônes</h1>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <a class="nova-btn nova-btn-secondary nova-btn-sm" href="../../../astral-nova-css/examples/lab/index.html">Nova Lab</a>
+        <a class="nova-btn nova-btn-outline nova-btn-sm" href="../../../astral-nova-css/examples/playground/index.html">Playground CSS</a>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <label for="size">Taille</label>
+      <select id="size">
+        <option value="sm">sm</option>
+        <option value="md" selected>md</option>
+        <option value="lg">lg</option>
+        <option value="xl">xl</option>
+      </select>
+      <span id="count" class="nova-badge">…</span>
+    </div>
+
+    <div class="grid" id="grid" aria-live="polite"></div>
+  </div>
+
+  <script type="module">
+    const sprite = new URL('../../dist/icons.svg', import.meta.url);
+    const manifestUrl = new URL('../../dist/icons.json', import.meta.url);
+    const grid = document.getElementById('grid');
+    const sizeSelect = document.getElementById('size');
+    const count = document.getElementById('count');
+    let icons = [];
+
+    function render() {
+      const size = sizeSelect.value;
+      grid.innerHTML = icons.map((name) => {
+        const filled = name.endsWith('-fill');
+        const cls = `nova-icon nova-icon--${size}${filled ? ' nova-icon--filled' : ''}`;
+        return `<div class="cell">
+          <svg class="${cls}" aria-hidden="true"><use href="${sprite.href}#nova-icon-${name}"></use></svg>
+          <code>${name}</code>
+        </div>`;
+      }).join('');
+      count.textContent = `${icons.length} icônes`;
+    }
+
+    const data = await fetch(manifestUrl).then((r) => r.json());
+    icons = data.icons;
+    sizeSelect.addEventListener('change', render);
+    render();
+  </script>
+</body>
+</html>
